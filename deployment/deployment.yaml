@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-paint
+spec:
+  selector:
+    matchLabels:
+      app: simple-paint
+  template:
+    metadata:
+      labels:
+        app: simple-paint
+    spec:
+      containers:
+      - name: simple-paint
+        image: elbekdev/simplepaint
+        ports:
+        - containerPort: 80
