@@ -34,9 +34,10 @@ pipeline{
         sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
         sh 'chmod u+x ./kubectl' 
         sh './kubectl config --kubeconfig=/root/.kube/config view'
-        withKubeConfig(env.KUBECONFIG) {
-          sh './kubectl apply -f ./deployment/.'
-        }
+        sh 'printenv'
+        
+          sh './kubectl apply --kubeconfig env.KUBECONFIG -f ./deployment/.'
+      
         
       echo "success"
     }
