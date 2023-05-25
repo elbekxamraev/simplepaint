@@ -4,6 +4,9 @@ pipeline{
       string(name: 'region', defaultValue : 'us-east-1', description: "AWS region.")
       string(name: 'cluster', defaultValue: 'prak', description: "EKS cluster name")
     }
+     environment {
+        KUBECONFIG = '/root/.kube/config'
+    }
     stages {
   stage('setup') {
     steps {
