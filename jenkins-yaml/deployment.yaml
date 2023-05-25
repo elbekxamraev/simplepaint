@@ -16,7 +16,7 @@ spec:
       securityContext:
             fsGroup: 1000
             runAsUser: 1000
-      serviceAccountName: jenkins-eks
+      serviceAccountName: eks-service
       containers:
         - name: jenkins
           image: elbekdev/jenkins2
