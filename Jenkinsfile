@@ -28,7 +28,7 @@ pipeline{
   stage('deploy') {
     steps {
       sh "aws eks update-kubeconfig --name ${params.cluster} --region ${params.region}"
-      sh " kubectl apply -f ./deployment/."
+      sh " ./kubectl apply -f ./deployment/."
       echo "success"
     }
   }
