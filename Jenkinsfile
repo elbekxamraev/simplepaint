@@ -28,7 +28,9 @@ pipeline{
   stage('deploy') {
     steps {
       sh "aws eks update-kubeconfig --name ${params.cluster} --region ${params.region}"
-      sh " ./kubectl apply -f ./deployment/."
+        sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+        sh 'chmod u+x ./kubectl'  
+        sh './kubectl apply -f ./deployment/.'
       echo "success"
     }
   }
