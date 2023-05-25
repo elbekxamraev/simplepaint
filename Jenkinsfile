@@ -15,6 +15,8 @@ pipeline{
             rm -rf linux-amd64
             chmod u+x eksctl kubectl helm
             ls -l eksctl kubectl helm )
+            apt-get update && apt-get install -y awscli
+            aws --version
             """
 
     }
