@@ -36,7 +36,7 @@ pipeline{
         sh './kubectl config --kubeconfig=/root/.kube/config view'
         sh 'printenv'
         
-          sh './kubectl apply --kubeconfig env.KUBECONFIG -f ./deployment/.'
+          sh './kubectl apply --kubeconfig $KUBECONFIG -f ./deployment/.'
       
         
       echo "success"
