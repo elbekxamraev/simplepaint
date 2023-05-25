@@ -19,10 +19,12 @@ spec:
       serviceAccountName: jenkins-eks
       containers:
         - name: jenkins
-          image: jenkins/jenkins:lts
+          image: elbekdev/jenkins2
           volumeMounts:
             - mountPath: /var/jenkins_home
               name: jenkins-data
+          securityContext:
+            runAsUser: 0
           ports:
             - name: httpport
               containerPort: 8080

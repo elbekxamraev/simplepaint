@@ -1,5 +1,9 @@
 pipeline{
     agent any
+    parameters{
+      string(name: 'region', defaultValue : 'us-east-1', description: "AWS region.")
+      string(name: 'cluster', defaultValue: 'prak', description: "EKS cluster name")
+    }
     stages {
   stage('setup') {
     steps {
@@ -15,8 +19,6 @@ pipeline{
             rm -rf linux-amd64
             chmod u+x eksctl kubectl helm
             ls -l eksctl kubectl helm )
-            apt-get update && apt-get install -y awscli
-            aws --version
             """
 
     }
