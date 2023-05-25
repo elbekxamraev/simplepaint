@@ -15,6 +15,7 @@ pipeline{
             rm -rf linux-amd64
             chmod u+x eksctl kubectl helm
             ls -l eksctl kubectl helm )
+            """
 
     }
   }
@@ -29,5 +30,5 @@ pipeline{
   }
 
 }
-
 }
+    
