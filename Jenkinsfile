@@ -38,7 +38,9 @@ pipeline{
         sh './kubectl config current-context'
         sh 'cat $KUBECONFIG'
         withKubeConfig([credentialsId: 'kubeconfig']){
+              sh 'kubectl config view --minify'
               sh './kubectl get pods'
+              
         }
         
       
