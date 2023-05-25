@@ -35,6 +35,7 @@ pipeline{
         sh 'chmod u+x ./kubectl' 
         sh './kubectl config --kubeconfig=/root/.kube/config view'
         sh 'printenv'
+        sh 'kubectl config current-context'
         sh 'cat $KUBECONFIG'
           sh './kubectl apply --kubeconfig $KUBECONFIG -f ./deployment/.'
       
