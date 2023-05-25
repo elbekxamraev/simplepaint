@@ -38,7 +38,7 @@ pipeline{
         sh './kubectl config current-context'
         sh 'cat $KUBECONFIG'
         withKubeConfig([credentialsId: 'kubeconfig']){
-              sh './kubectl apply -f ./deployment/.'
+              sh './kubectl get pods'
         }
         
       
