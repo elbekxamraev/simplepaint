@@ -37,7 +37,10 @@ pipeline{
         sh 'printenv'
         sh './kubectl config current-context'
         sh 'cat $KUBECONFIG'
-          sh './kubectl apply --kubeconfig $KUBECONFIG -f ./deployment/.'
+        withKubeConfig([credentialId: kubeconfig]){
+              sh './kubectl apply -f ./deployment/.'
+        }
+        
       
         
       echo "success"
