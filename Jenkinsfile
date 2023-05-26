@@ -3,11 +3,10 @@ pipeline{
     parameters{
       string(name: 'region', defaultValue : 'us-east-1', description: "AWS region.")
       string(name: 'cluster', defaultValue: 'prak', description: "EKS cluster name")
-      string(name: 'image_name', defaultValue: 'jspaint')
     }
     environment{
       DOCKERHUB_CRED=credentials('dockerhub-login');
-      IMAGE_NAME= "${params.image_name}:${$BUILDNUMBER}"
+      IMAGE_NAME= "jspaint:$BUILD_NUMBER"
     }
     stages {
   stage('setup') {
@@ -30,8 +29,9 @@ pipeline{
   }
   stage('build container'){
     steps{ 
-        sh 'docker image tag $IMAGE_NAME $DOCKERHUB_CRED_USR/$IMAGE_NAME'
+        
         sh 'docker build -t $IMAGE_NAME -f ./jspaint/.'
+        sh 'docker image tag $IMAGE_NAME $DOCKERHUB_CRED_USR/$IMAGE_NAME'
   }
   }
   stage('push container'){
