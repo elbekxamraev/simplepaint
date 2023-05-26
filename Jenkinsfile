@@ -30,7 +30,7 @@ pipeline{
   }
   stage('build container'){
     steps{ 
-        sh 'docker image tag ${env.IMAGE_NAME} ${env.DOCKERHUB_CRED_USR}/${env.IMAGE_NAME}'
+        sh 'docker image tag $IMAGE_NAME $DOCKERHUB_CRED_USR/$IMAGE_NAME'
         sh 'docker build -t $IMAGE_NAME -f ./jspaint/.'
   }
   }
