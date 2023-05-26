@@ -46,10 +46,10 @@ pipeline{
         withKubeConfig([credentialsId: 'kubeconfig']){
              sh './kubectl apply -f ./deployment/.'
         }
-        }
     }
   }
 
 }
 }
+
     
