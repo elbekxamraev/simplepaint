@@ -28,14 +28,14 @@ pipeline{
 
     }
   }
-  stage('build-container'){
+  stage('build container'){
     steps{
       script{
-      docker.build('$IMAGE_NAME', " ./jspaint/.")
+      docker.build('$IMAGE_NAME', "-f ./jspaint/.")
       }
   }
   }
-  stage('push-container'){
+  stage('push container'){
     steps{
       script{
     docker.withRegistry('docker.io',DOCKERHUB_CRED){
