@@ -31,6 +31,7 @@ pipeline{
   stage('build container'){
     steps{
       script{
+        echo '$IMAGE_NAME'
       docker.build('$IMAGE_NAME', "-f ./jspaint/.")
       }
   }
