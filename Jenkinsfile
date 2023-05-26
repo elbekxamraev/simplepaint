@@ -46,7 +46,8 @@ pipeline{
         sh 'sed -i $IMAGE_NAME'
         sh 'sed -i -E 's/^( *)(.*image: ${params.image_name})$/\1image: here/' ./deployment/deployment.yaml' 
         withKubeConfig([credentialsId: 'kubeconfig']){
-             sh "./kubectl apply -f ./deployment/."
+             sh './kubectl apply -f ./deployment/.'
+        }
         }
     }
   }
