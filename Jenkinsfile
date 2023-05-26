@@ -31,13 +31,13 @@ pipeline{
   stage('build container'){
     steps{ 
         sh 'docker image tag ${env.IMAGE_NAME} ${env.DOCKERHUB_CRED_USR}/${env.IMAGE_NAME}'
-        sh "docker build -t ${env.IMAGE_NAME}", "-f ./jspaint/."
+        sh 'docker build -t $IMAGE_NAME -f ./jspaint/.'
   }
   }
   stage('push container'){
     steps{
       sh 'echo $DOCKERHUB_CRED_PSW  | docker login -n $DOCKERHUB_CRED_USR --password-stdin'
-      sh "docker push ${env.DOCKERHUB_CRED_USR}/${env.IMAGE_NAME}"
+      sh 'docker push $DOCKERHUB_CRED_USR/$IMAGE_NAME'
       }
     
     }
