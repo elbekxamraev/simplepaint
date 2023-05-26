@@ -43,8 +43,6 @@ pipeline{
       sh "aws eks update-kubeconfig --name ${params.cluster} --region ${params.region}"
         sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
         sh 'chmod u+x ./kubectl'
-        sh 'sed -i $IMAGE_NAME'
-        sh "sed -i -E \"s/^( *)(.*image: ${params.image_name})$/\1image: here/\" ./deployment/deployment.yaml"
         withKubeConfig([credentialsId: 'kubeconfig']){
              sh './kubectl apply -f ./deployment/.'
         }
