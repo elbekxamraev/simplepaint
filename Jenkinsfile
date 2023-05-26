@@ -29,21 +29,19 @@ pipeline{
     }
   }
   stage('build container'){
-    steps{
-      script{
-      docker.build("${env.IMAGE_NAME}", "-f ./jspaint/.")
-      }
+    steps{ 
+        sh 'docker image tag ${env.IMAGE_NAME} ${env.DOCKERHUB_CRED_USR}/${env.IMAGE_NAME}'
+        sh "docker build -t ${env.IMAGE_NAME}", "-f ./jspaint/."
   }
   }
   stage('push container'){
     steps{
-      script{
-    docker.withRegistry('docker.io',DOCKERHUB_CRED){
-      docker.image("${env.$IMAGE_NAME}").push("${env.DOCKERHUB_CRED_USR}/${env.IMAGE_NAME}")
-    }
+      sh 'echo $DOCKERHUB_CRED_PSW  | docker login -n $DOCKERHUB_CRED_USR --password-stdin'
+      sh "docker push ${env.DOCKERHUB_CRED_USR}/${env.IMAGE_NAME}"
       }
+    
     }
-  }
+  
 
   stage('deploy') {
     steps {
