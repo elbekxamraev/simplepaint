@@ -3,9 +3,11 @@ pipeline{
     parameters{
       string(name: 'region', defaultValue : 'us-east-1', description: "AWS region.")
       string(name: 'cluster', defaultValue: 'prak', description: "EKS cluster name")
+      string(name: 'image_name', defaultValue: 'jspaint')
     }
-     environment {
-        KUBECONFIG = '/root/.kube/config'
+    environment{
+      DOCKERHUB_CRED=credentials('dockerhub-login');
+      IMAGE_NAME= "${params.image_name}:${$BUILDNUMBER}"
     }
     stages {
   stage('setup') {
@@ -26,24 +28,26 @@ pipeline{
 
     }
   }
-
+  stage('build-container'){
+      
+      docker.build('$IMAGE_NAME', " ./jspaint/.")
+  }
+  stage('push-container'){
+    docker.withRegistry('docker.io',DOCKERHUB_CRED){
+      docker.image('$IMAGE_NAME').push("${DOCKERHUB_CRED_USR}/${env.IMAGE_NAME}")
+    }
+  }
 
   stage('deploy') {
     steps {
       sh "aws eks update-kubeconfig --name ${params.cluster} --region ${params.region}"
         sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
-        sh 'chmod u+x ./kubectl' 
-        sh './kubectl config --kubeconfig=/root/.kube/config view'
-        sh 'printenv'
-        sh './kubectl config current-context'
-        sh 'cat $KUBECONFIG'
+        sh 'chmod u+x ./kubectl'
+        sh 'sed -i $IMAGE_NAME'
+        sh 'sed -i -E 's/^( *)(.*image: ${params.image_name})$/\1image: here/' ./deployment/deployment.yaml' 
         withKubeConfig([credentialsId: 'kubeconfig']){
-              sh './kubectl apply -f ./deployment/.'   
+             sh "./kubectl apply -f ./deployment/."
         }
-        
-      
-        
-      echo "success"
     }
   }
 
