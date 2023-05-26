@@ -31,8 +31,7 @@ pipeline{
   stage('build container'){
     steps{
       script{
-        echo '$IMAGE_NAME'
-      docker.build('$IMAGE_NAME', "-f ./jspaint/.")
+      docker.build("${env.IMAGE_NAME}", "-f ./jspaint/.")
       }
   }
   }
@@ -40,7 +39,7 @@ pipeline{
     steps{
       script{
     docker.withRegistry('docker.io',DOCKERHUB_CRED){
-      docker.image('$IMAGE_NAME').push("${DOCKERHUB_CRED_USR}/${env.IMAGE_NAME}")
+      docker.image("${env.$IMAGE_NAME}").push("${env.DOCKERHUB_CRED_USR}/${env.IMAGE_NAME}")
     }
       }
     }
