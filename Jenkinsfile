@@ -29,15 +29,19 @@ pipeline{
     }
   }
   stage('build-container'){
-      steps{
+    steps{
+      script{
       docker.build('$IMAGE_NAME', " ./jspaint/.")
       }
   }
+  }
   stage('push-container'){
     steps{
+      script{
     docker.withRegistry('docker.io',DOCKERHUB_CRED){
       docker.image('$IMAGE_NAME').push("${DOCKERHUB_CRED_USR}/${env.IMAGE_NAME}")
     }
+      }
     }
   }
 
